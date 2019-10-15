@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#{request.contextPath}/index.xhtml">
+                <img style="display: inline-block; margin-right: 10px; height: 25px; width: auto;" src="#{request.contextPath}/resources/img/logo.jpg" alt="Logo Fundación" /> Blog
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#request.contextPath}/index.xhtml">Inicio</a>
+                    </li> -->
+                    <ui:repeat value="#{categoriaPublicacionController.categorias}" var="c">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#{request.contextPath}/#{c.nombrePlural.toLowerCase()}.xhtml">#{c.nombrePlural}</a>
+                        </li>
+                    </ui:repeat>
+                    <li class="nav-item">
+                        <h:form prependId="false" class="d-flex flex-row">
+                            <h:inputText class="form-control form-control-sm mr-1" a:placeholder="Buscar en el blog" value="#{publicacionBlogController.busqueda}" />
+                            <h:commandLink class="btn btn-primary btn-sm" action="#{publicacionBlogController.buscarPublicaciones()}" style="padding: 0px 5px; display: flex; align-items: center;">
+                                <span class="fa fa-1x fa-search"></span>
+                            </h:commandLink>
+                        </h:form>
+                    </li>
+                    <h:panelGroup rendered="#{empty sesionController.usuario}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#{request.contextPath}/iniciar-sesion.xhtml">Iniciar sesión</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#{request.contextPath}/registrarse.xhtml">Registrarse</a>
+                        </li>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not empty sesionController.usuario}">
+                        <!-- o hacerlo dropdown -->
+                        <h:panelGroup rendered="#{sesionController.usuario.esAdministrador}">
+                            <li class="nav-item">
+                                <a class="nav-link" title="Ir al panel de administración" href="#{request.contextPath}/admin/index.xhtml" target="_blank">Admin</a>
+                            </li>
+                        </h:panelGroup>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#modalCerrarSesion">Cerrar sesión</a>
+                        </li>
+                    </h:panelGroup>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Black navbar -->
+    <div id="blackNav" style="background-color: #000;"></div>
+</ui:composition>
+

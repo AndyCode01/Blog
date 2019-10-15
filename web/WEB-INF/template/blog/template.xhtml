@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      lang="es">
+    <h:head>
+        <ui:insert name="historyBack"></ui:insert>
+        
+        <ui:include src="/WEB-INF/template/common/head.xhtml"></ui:include>
+        <link href="#{request.contextPath}/resources/css/clean-blog.min.css" rel="stylesheet" />
+        
+        <!-- Custom fonts for this template -->        
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css' />
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css' />
+    </h:head>
+    <h:body>
+        <ui:include src="/WEB-INF/template/blog/navbar.xhtml"></ui:include>
+
+        <ui:insert name="content"></ui:insert>
+
+        <hr />
+
+        <ui:include src="/WEB-INF/template/blog/footer.xhtml"></ui:include>
+
+        <ui:include rendered="#{not empty sesionController.usuario}" src="/WEB-INF/template/common/cerrar-sesion.xhtml"></ui:include>
+        <ui:insert name="modals"></ui:insert>
+        
+        <ui:include src="/WEB-INF/template/common/scripts.xhtml"></ui:include>
+        <script src="#{request.contextPath}/resources/js/clean-blog.min.js"></script>
+        <script src="#{request.contextPath}/resources/js/blog-navbar.js"></script>
+    </h:body>
+</html>
+

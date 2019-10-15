@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Blog" />
+        <meta name="author" content="Andres Bustos" />
+        <link rel="shortcut icon" href="#{request.contextPath}/resources/img/logo.jpg" />
+
+        <title><ui:insert name="title">Blog</ui:insert> - Blog</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="#{request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        
+        <!-- Font Awesome -->
+        <link href="#{request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+        
+        <!-- Custom styles for this template -->
+        <ui:insert name="styles"></ui:insert>
+    </h:head>
+</ui:composition>
+

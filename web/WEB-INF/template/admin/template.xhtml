@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      lang="es">
+    <h:head>
+        <h:outputScript rendered="#{not sesionController.usuario.esAdministrador}">#{scriptController.historyBack}</h:outputScript>
+        
+        <ui:include src="/WEB-INF/template/common/head.xhtml"></ui:include>
+        <!-- Page level plugin CSS-->
+        <link href="#{request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+        <link href="#{request.contextPath}/resources/vendor/trumbowyg/ui/trumbowyg.min.css" rel="stylesheet" />
+        
+        <link href="#{request.contextPath}/resources/css/sb-admin.min.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+        <ui:include src="/WEB-INF/template/admin/navbar.xhtml"></ui:include>
+
+        <div id="wrapper">
+            <ui:include src="/WEB-INF/template/admin/sidebar-navbar.xhtml"></ui:include>
+
+            <div id="content-wrapper">
+                <!-- Breadcrumbs-->
+                <ol class="breadcrumb">
+                    <ui:insert name="breadcrumb"></ui:insert>
+                    <li class="breadcrumb-item active"><ui:insert name="title"></ui:insert></li>
+                </ol>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h1><ui:insert name="title"></ui:insert></h1>
+                    </div>
+                    <div class="card-body">
+                        <ui:insert name="content"></ui:insert>
+                    </div>
+                </div>
+
+
+                <ui:include src="/WEB-INF/template/admin/footer.xhtml"></ui:include>
+            </div>
+        </div>
+
+        <ui:include src="/WEB-INF/template/common/cerrar-sesion.xhtml"></ui:include>
+        <ui:insert name="modals"></ui:insert>
+
+        <ui:include src="/WEB-INF/template/common/scripts.xhtml"></ui:include>
+        
+        <!-- Core plugin JavaScript-->
+        <script src="#{request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Page level plugin JavaScript-->
+        <script src="#{request.contextPath}/resources/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="#{request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+        <script src="#{request.contextPath}/resources/js/sb-admin.min.js"></script>
+        <script src="#{request.contextPath}/resources/js/datatables-demo.js"></script>
+    </h:body>
+</html>
+

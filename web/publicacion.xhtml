@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/template/blog/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:define name="historyBack">
+        <h:outputScript rendered="#{empty publicacionBlogController.publicacionSeleccionada}">#{scriptController.historyBack}</h:outputScript>
+    </ui:define>
+    <ui:define name="title">#{publicacionBlogController.publicacionSeleccionada.titulo}</ui:define>
+    <ui:define name="content">
+        <!-- Post Content -->
+        <article class="mt-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <h1><h:outputText value="#{publicacionBlogController.publicacionSeleccionada.titulo}" /></h1>
+
+                        <h:form prependId="false">
+                            <p>
+                                <em>Publicado por: </em> <h:commandLink title="Ver publicaciones de #{publicacionBlogController.publicacionSeleccionada.usuarioId.nombreCompleto}" action="#{publicacionBlogController.seleccionarAutor(publicacionBlogController.publicacionSeleccionada.usuarioId)}"><h:outputText value="#{publicacionBlogController.publicacionSeleccionada.usuarioId.nombreCompleto}" /></h:commandLink><br/>
+                                <em>Fecha de publicación: </em> <h:outputText value="#{publicacionBlogController.publicacionSeleccionada.fechaPublicacion}"><f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{fechaControlador.zonaHoraria}" /></h:outputText><br />
+                                <em>Categoría: </em> <h:commandLink action="#{publicacionBlogController.seleccionarCategoria(publicacionBlogController.publicacionSeleccionada.categoriaPublicacionId)}" title="Ver #{publicacionBlogController.publicacionSeleccionada.categoriaPublicacionId.nombrePlural}"><h:outputText value="#{publicacionBlogController.publicacionSeleccionada.categoriaPublicacionId.nombre}" /></h:commandLink>
+                            </p>
+                        </h:form>
+
+                        <h:outputText value="#{publicacionBlogController.publicacionSeleccionada.contenido}" escape="false" />
+
+                        <h:panelGroup rendered="#{empty sesionController.usuario}">
+                            <div class="card mt-5">
+                                <div class="card-header">
+                                    <h3>Comentar</h3>
+                                </div>
+                                <div class="card-body">
+                                    Para comentar se debe tener una cuenta para este blog
+                                </div>
+                                <div class="card-footer">
+                                    <a class="btn btn-primary mr-1" href="#{request.contextPath}/iniciar-sesion.xhtml">
+                                        Iniciar sesión
+                                    </a>
+                                    <a class="btn btn-primary" href="#">
+                                        Registarse
+                                    </a>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <h:form prependId="false" rendered="#{not empty sesionController.usuario}">
+                            <div class="card mt-5">
+                                <div class="card-header">
+                                    <h3><h:outputLabel for="comentario" value="Añadir comentario" /></h3>
+                                </div>
+                                <div class="card-body">
+                                    <h:inputTextarea id="comentario" required="true" a:maxlength="1000" class="form-control" value="#{publicacionBlogController.nuevoComentario.comentario}" requiredMessage="Debe agregar algo para comentar" />
+                                    <h:message for="comentario" style="color: red;" />
+                                </div>
+                                <div class="card-footer">
+                                    <h:commandButton type="submit" class="btn btn-primary" value="Comentar" action="#{publicacionBlogController.agregarComentario()}" />
+                                </div>
+                            </div>
+                        </h:form>
+
+                        <h:panelGroup rendered="#{empty publicacionBlogController.comentariosPublicacion}">
+                            <p class="text-center"><em>No hay comentarios</em></p>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{not empty publicacionBlogController.comentariosPublicacion}">
+                            <h2 class="mt-5">Comentarios</h2>
+                            <ui:repeat value="#{publicacionBlogController.comentariosPublicacion}" var="c">
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <strong><h:outputText value="#{c.usuarioId.nombreCompleto} " /></strong> <em><h:outputText rendered="#{c.usuarioId.esAdministrador}" value="Administrador" style="color: green" /></em><br />
+                                        <h:outputText value="#{c.fechaPublicacion}" style="font-size: 13px;"><f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{fechaControlador.zonaHoraria}" /></h:outputText>
+                                    </div>
+                                    <div class="card-body">
+                                        <h:outputText value="#{c.comentario}" />
+                                    </div>
+                                    <h:panelGroup rendered="#{sesionController.usuario.esAdministrador or sesionController.usuario.idEsIgual(c.usuarioId)}">
+                                        <div class="card-footer">
+                                            <h:form prependId="false">
+                                                <h:commandLink class="btn btn-danger" actionListener="#{publicacionBlogController.seleccionarComentario(c)}" a:data-toggle="modal" a:data-target="#modalComentario">
+                                                    <f:ajax render=":modalComentarioEliminado" />
+                                                    <span class="fa fa-trash"></span> Eliminar comentario
+                                                </h:commandLink>
+                                            </h:form>
+                                        </div>
+                                    </h:panelGroup>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </ui:define>
+    <ui:define name="modals">
+        <ui:include src="/WEB-INF/template/blog/eliminar-comentario.xhtml" />
+    </ui:define>
+</ui:composition>

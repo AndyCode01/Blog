@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/template/blog/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">Discusiones</ui:define>
+    <ui:define name="content">
+        <!-- Main Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <h1 class="mt-3">Discusiones</h1>
+                    
+                    <h:panelGroup rendered="#{empty publicacionBlogController.discusiones}">
+                        <p class="text-center"><em>No hay discusiones</em></p>
+                    </h:panelGroup>
+                    
+                    <h:form rendered="#{not empty publicacionBlogController.discusiones}" prependId="false">
+                        <ui:repeat value="#{publicacionBlogController.discusiones}" var="p">
+                            <div class="post-preview">
+                                <h:commandLink action="#{publicacionBlogController.seleccionarPublicacion(p)}">
+                                    <h2 class="post-title">
+                                        <h:outputText value="#{p.titulo}" />
+                                    </h2>
+                                    <!-- <h3 class="post-subtitle">
+                                        Problems look mighty small from 150 miles up
+                                    </h3> -->
+                                </h:commandLink>
+                                <p class="post-meta">
+                                    Publicado por <strong><h:commandLink title="Ver publicaciones de #{p.usuarioId.nombreCompleto}" action="#{publicacionBlogController.seleccionarAutor(p.usuarioId)}"><h:outputLabel value="#{p.usuarioId.getNombreCompleto()}" /></h:commandLink></strong> el <h:outputText value="#{p.fechaPublicacion}"><f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{fechaControlador.zonaHoraria}" /></h:outputText><br/>
+                                    Categoría: <h:commandLink action="#{publicacionBlogController.seleccionarCategoria(p.categoriaPublicacionId)}" title="Ver #{p.categoriaPublicacionId.nombrePlural}"><h:outputText value=" #{p.categoriaPublicacionId.nombre}" /></h:commandLink><br />
+                                    <h:outputText value="#{comentarioController.mostrarComentarios(p.comentarioList)}" escape="false" />
+                                </p>
+                            </div>
+                            <hr />
+                        </ui:repeat>
+                    </h:form>
+                    <!-- Pager -->
+                    <!-- <div class="clearfix">
+                        <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
